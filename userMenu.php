@@ -13,7 +13,7 @@ if(isset($_GET['logout'])==1)
 
 <div  class="menu">
     <ul>
-        <li><a class="active" href="Home.php" >Home</a></li>
+        <li><a class="active" href="home.php" >Home</a></li>
         <li><a href="?logout=1" >Logout</a></li>
     </ul>
 </div>

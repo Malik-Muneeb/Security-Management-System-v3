@@ -1,6 +1,7 @@
 <?php
 session_start();
-require('conn.php');
+include ('conn.php');
+include ("api.php");
 $error = "";
 $login=""?>
 <html>
@@ -31,7 +32,7 @@ $login=""?>
         });
     }
 </script>
-<?php include ("loginDAO.php");?>
+<?php $error=loginDAO();?>
 <body class="bodyContainer" onload="main();">
 <h1 style="background-color:#006600;color:white;float;margin-right:1050px">Security Manager</h1>
 <div class="container" style="float:left;">
