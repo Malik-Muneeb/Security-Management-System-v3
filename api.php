@@ -1,7 +1,8 @@
 <?php
+include("conn.php");
 function loginDAO()
 {
-    include("conn.php");
+    global $conn;
     if (isset($_POST["btnLogin"])) {
         $login = $_POST["txtLogin"];
         $password = $_POST["txtPassword"];
@@ -27,18 +28,38 @@ function loginDAO()
     }
 }
 
-function fetchCities($countryId){
-    include ("conn.php");
+function fetchCountries()
+{
+    global $conn;
+    $sql = "SELECT * FROM country";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    $countries = array();
+    if ($recordsFound > 0) {
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $countryId = $row["id"];
+            $countryName = $row["name"];
+            $countries[$i] = array("countryId" => $countryId, "name" => $countryName);
+            $i++;
+        }
+    }
+    return $countries;
+}
+
+function fetchCities($countryId)
+{
+    global $conn;
     $sql = "SELECT * FROM city WHERE countryid=$countryId";
     $result = mysqli_query($conn, $sql);
     $recordsFound = mysqli_num_rows($result);
-    $cities=array();
+    $cities = array();
     if ($recordsFound > 0) {
-        $i=0;
+        $i = 0;
         while ($row = mysqli_fetch_assoc($result)) {
             $cityId = $row["id"];
             $cityName = $row["name"];
-            $cities[$i]=array("cityId" => $cityId, "name" => $cityName);
+            $cities[$i] = array("cityId" => $cityId, "name" => $cityName);
             $i++;
         }
     }
@@ -47,17 +68,14 @@ function fetchCities($countryId){
 
 function userAddDAO()
 {
-    include ("conn.php");
+    global $conn;
     $login = $_POST["txtLogin"];
     $password = $_POST["txtPassword"];
     $name = $_POST["txtName"];
     $email = $_POST["txtEmail"];
     $country = $_POST["cmbCountries"];
-    $city=$_POST["cmbCities"];
-    if ($_SESSION["isAdmin"]==1)
-        $isAdmin = 1;
-    else
-        $isAdmin = 0;
+    $city = $_POST["cmbCities"];
+    $isAdmin = $_POST["adminStatus"];
     if ($login == "" && $password == "" && $name == "" && $email == "")
         return "Please Enter All Information";
     else {
@@ -68,10 +86,9 @@ function userAddDAO()
         if (mysqli_query($conn, $sql) === TRUE) {
             return "Record is added successfully.";
         } else {
-           return "Some Problem has occurred";
+            return "Some Problem has occurred";
         }
     }
 }
-
 
 ?>
