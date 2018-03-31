@@ -43,17 +43,16 @@ if ($_SESSION["isAdmin"] == 1)
         <input type="button" id="btnSave" name="btnSave" value="Save">
         <input type="reset" id="btnClear" name="btnClear" value="Clear">
     </div>
-    <div style="float:left;">
+
+    <div >
         <h3>Users Table</h3>
-        <hr>
-        <table class="table table-bordered table-responsive" id="userTable">
-            <tr class="table-active">
-                <th scope="col">ID</th>
-                <th>User Name</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th>Edit</th>
+        <table border="1" id="myTable">
+            <tr >
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
                 <th>Delete</th>
+                <th>Edit</th>
             </tr>
         </table>
 

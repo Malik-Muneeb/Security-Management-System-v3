@@ -1,5 +1,6 @@
 <?php
 include("conn.php");
+
 function loginDAO()
 {
     global $conn;
@@ -91,4 +92,25 @@ function userAddDAO()
     }
 }
 
+function getAllUsers()
+{
+    global $conn;
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    $users = array();
+    if ($recordsFound > 0) {
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $id=$row['userid'];
+            $name=$row['name'];
+            $email=$row['email'];
+            $users[$i] = array("id" => $id, "name" => $name, "email" => $email);
+            $i++;
+        }
+        return $users;
+    } else {
+        return "No Records Found";
+    }
+}
 ?>

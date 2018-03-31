@@ -1,11 +1,11 @@
 $(document).ready(main);
 
 function main() {
-    //loadUserTable();
     loadCountries();
     $("#cmbCountries").change(loadCities);
     $("#btnSave").click(saveUser);
     $("#btnClear").click(clearFields);
+    loadUserTable();
 
 }
 
@@ -144,4 +144,41 @@ function clearFields() {
     $("#txtEmail").val("");
     $("#cmbCountries").val("0");
     $("#cmbCities").val("0");
+}
+
+function loadUserTable() {
+
+    var dataToSend = {
+        action: "getAllUsers"
+    }
+
+    var settings = {
+        type: "post",
+        dataType: "json",
+        url: "apiAjax.php",
+        data: dataToSend,
+        success: function (result) {
+            alert("print table");
+            var table = $("#myTable");
+            $(result).each(function () {
+                var tr = $("<tr>");
+                tr.append("<td>" + $(this).attr("id") + "</td>");
+                tr.append("<td>" + $(this).attr("name") + "</td>");
+                tr.append("<td>" + $(this).attr("email") + "</td>");
+                link = $("<td><a id ='" + $(this).attr("id") + "'>Edit</a></td>");
+                tr.append(link);
+                var link = $("<td><a >Delete</a></td>");
+                tr.append(link);
+                table.append(tr);
+            });
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Error occured while loading Users");
+            console.log(JSON.stringify(jqXHR));
+            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    };
+
+    $.ajax(settings);
 }

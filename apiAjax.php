@@ -11,6 +11,9 @@ if (isset($_POST["action"])) {
     } else if ($_POST["action"] == "fetchCities") {
         $cities = fetchCities($_POST["countryId"]);
         echo json_encode($cities);
+    } else if ($_POST["action"] == "getAllUsers") {
+        $users = getAllUsers();
+        echo json_encode($users);
     }
 
 }
