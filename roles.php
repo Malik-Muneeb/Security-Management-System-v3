@@ -19,6 +19,7 @@ if($_SESSION["isAdmin"]==1)
 <div>
     <div class="container1" id="roleForm" name="roleForm" style="float:left;">
         <h1>Role Management</h1>
+        <input type="hidden" id="updateId" name="updateId">
         <span>Role Name: </span> <input type="text" name="txtName" id="txtName" value="<?php echo $name;?>"><br>
         <span>Description: </span> <input type="text" name="txtDesc" id="txtDesc" value="<?php echo $description;?>"><br>
         <input type="button" id="btnSave" name="btnSave" value="Save">

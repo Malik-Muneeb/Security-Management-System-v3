@@ -26,14 +26,22 @@ if (isset($_POST["action"])) {
         $msg = deleteUser();
         echo json_encode($msg);
     } else if ($_POST["action"] == "saveRole") {
-        $msg=saveRole();
-        echo json_encode($msg);
-    } else if($_POST["action"]=="getAllRoles"){
-        $roles=getAllRoles();
+        if ($_POST["txtUpdateId"] == NULL) {
+            $msg = saveRole();
+            echo json_encode($msg);
+        } else {
+            $msg = updateRole();
+            echo json_encode($msg);
+        }
+    } else if ($_POST["action"] == "getAllRoles") {
+        $roles = getAllRoles();
         echo json_encode($roles);
-    } else if($_POST["action"]=="editRole"){
-        $role=getRole();
+    } else if ($_POST["action"] == "editRole") {
+        $role = getRole();
         echo json_encode($role);
+    } else if($_POST["action"]=="deleteRole"){
+        $msg=deleteRole();
+        echo json_encode($msg);
     }
 
 }

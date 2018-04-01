@@ -7,6 +7,7 @@ function main() {
 
 function saveRole() {
     var roleObj = new Object();
+    roleObj.updateId=$("#updateId").val();
     roleObj.roleName = document.getElementById("txtName").value;
     roleObj.roleDesc = document.getElementById("txtDesc").value;
 
@@ -20,6 +21,7 @@ function saveRole() {
     }
 
     var dataToSend = {
+        "txtUpdateId":roleObj.updateId,
         "txtName": roleObj.roleName,
         "txtDesc": roleObj.roleDesc,
         action: "saveRole"
@@ -79,9 +81,9 @@ function loadRoleTable() {
                         url: "apiAjax.php",
                         data: dataToSend,
                         success: function (result) {
-                            $("#updateId").val(result["userId"]);
-                            $("#txtLogin").val(result["login"]);
-                            $("#txtPassword").val(result["password"]);
+                            $("#updateId").val(result["roleId"]);
+                            $("#txtName").val(result["name"]);
+                            $("#txtDesc").val(result["description"]);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert("Error occured while Editing User");

@@ -209,7 +209,39 @@ function getAllRoles()
         return "No Roles Found";
 }
 
-function getRole(){
+function getRole()
+{
+    global $conn;
+    $editId = $_POST["editId"];
+    $sql = "SELECT * FROM roles WHERE roleid='" . $editId . "'";
+    $result = mysqli_query($conn, $sql);
+    $role = array();
+    if ($row = mysqli_fetch_assoc($result)) {
+        $role["roleId"] = $row["roleid"];
+        $role["name"] = $row["name"];
+        $role["description"] = $row["description"];
+        $role["createdOn"] = $row["createdon"];
+        $role["createdBy"] = $row["createdby"];
+        return $role;
+    }
+}
+
+function updateRole()
+{
+    global $conn;
+    $updateId = $_POST["txtUpdateId"];
+    $name = $_POST["txtName"];
+    $description = $_POST["txtDesc"];
+    $userId = $_SESSION["userId"];
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE roles set name='" . $name . "',description='" . $description . "'" .
+        ",createdon='" . $date . "',createdby='" . $userId . "' where roleid=$updateId";
+    if (mysqli_query($conn, $sql))
+        return "Role updated successfully";
+    else
+        return "Error while updating role";
+}
+
+function deleteRole(){
     
 }
-?>
