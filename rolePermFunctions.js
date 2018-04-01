@@ -59,21 +59,87 @@ function loadPermissions() {
     $.ajax(setting);
 }
 
+function loadRolePerTable() {
+    var dataToSend = {
+        action: "getAllRolesPers"
+    }
 
-/*
-function saveRolePer() {
-    var rolePerObj = new Object();
-    var role = document.getElementById("cmbRole");
-    rolePerObj.role = role.options[role.selectedIndex].text;
-    var per = document.getElementById("cmbPer");
-    rolePerObj.per = per.options[per.selectedIndex].text;
-    if (rolePerObj.role == "--Select--") {
-        alert("First Select Role.");
-        return false;
-    }
-    else if (rolePerObj.per == "--Select--") {
-        alert("First Select Permission.");
-        return false
-    }
+    var settings = {
+        type: "post",
+        dataType: "json",
+        url: "apiAjax.php",
+        data: dataToSend,
+        success: function (result) {
+            var table = $("#myTable");
+            $(result).each(function () {
+                var tr = $("<tr>");
+                tr.append("<td>" + $(this).attr("id") + "</td>");
+                tr.append("<td>" + $(this).attr("roleName") + "</td>");
+                tr.append("<td>" + $(this).attr("perName") + "</td>");
+                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("id") + "'>Edit</a></td>");
+                var editId = parseInt($(this).attr("id"));
+
+                edit.click(function () {
+                    var dataToSend = {
+                        "editId": editId,
+                        action:"editRolePer"
+                    }
+
+                    var settings = {
+                        type: "post",
+                        dataType: "json",
+                        url: "apiAjax.php",
+                        data: dataToSend,
+                        success: function (result) {
+                            $("#updateId").val(result["id"]);
+                            $("#cmbRole").val(result["roleId"]);
+                            $("#cmbPer").val(result["perId"]);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error occured while Editing Role-Permission");
+                            console.log(JSON.stringify(jqXHR));
+                            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                        }
+                    }
+                    $.ajax(settings);
+                });
+                tr.append(edit);
+                var deleteId = parseInt($(this).attr("id"));
+                var deleteLink = $("<td><a style = 'cursor:pointer;' >Delete</a></td>");
+                deleteLink.click(function () {
+                    if (confirm("Do You want to delete this role-permission ?")) {
+                        var dataToSend = {
+                            "deleteId": deleteId,
+                            action: "deleteRolePer"
+                        }
+                        var settings = {
+                            type: "post",
+                            dataType: "json",
+                            url: "apiAjax.php",
+                            data: dataToSend,
+                            success: function (result) {
+                                alert(result);
+                                tr.remove();
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert("Error occured while deleting Role-Permission");
+                                console.log(JSON.stringify(jqXHR));
+                                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                            }
+                        }
+                        $.ajax(settings);
+                    }
+                });
+                tr.append(deleteLink);
+                table.append(tr);
+            });
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Error occured while loading Users");
+            console.log(JSON.stringify(jqXHR));
+            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    };
+    $.ajax(settings);
 }
-*/

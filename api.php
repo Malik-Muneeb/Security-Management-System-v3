@@ -342,12 +342,12 @@ function fetchRoles()
     $result = mysqli_query($conn, $sql);
     $recordsFound = mysqli_num_rows($result);
     if ($recordsFound > 0) {
-        $roles=array();
-        $i=0;
+        $roles = array();
+        $i = 0;
         while ($row = mysqli_fetch_assoc($result)) {
             $roleId = $row["roleid"];
             $name = $row["name"];
-            $roles[$i]=array("roleId"=>$roleId, "name"=>$name);
+            $roles[$i] = array("roleId" => $roleId, "name" => $name);
             $i++;
         }
         return $roles;
@@ -361,14 +361,68 @@ function fetchPers()
     $result = mysqli_query($conn, $sql);
     $recordsFound = mysqli_num_rows($result);
     if ($recordsFound > 0) {
-        $pers=array();
-        $i=0;
+        $pers = array();
+        $i = 0;
         while ($row = mysqli_fetch_assoc($result)) {
             $perId = $row["permissionid"];
             $name = $row["name"];
-            $pers[$i]=array("roleId"=>$perId, "name"=>$name);
+            $pers[$i] = array("roleId" => $perId, "name" => $name);
             $i++;
         }
         return $pers;
     }
+}
+
+function getAllRolesPers()
+{
+    global $conn;
+    $sql = "SELECT * FROM role_permission";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $rolesPers = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $roleId = $row["roleid"];
+            $perId = $row["permissionid"];
+            $sql = "SELECT * FROM roles WHERE roleid=$roleId";
+            $result1 = mysqli_query($conn, $sql);
+            $row1 = mysqli_fetch_assoc($result1);
+            $roleName = $row1["name"];
+            $sql = "SELECT * FROM permissions WHERE permissionid=$perId";
+            $result1 = mysqli_query($conn, $sql);
+            $row1 = mysqli_fetch_assoc($result1);
+            $perName = $row1["name"];
+            $rolesPers[$i] = array("id" => $row['id'], "roleName" => $roleName, "perName" => $perName);
+            $i++;
+        }
+        return $rolesPers;
+    } else
+        return "No Records Found";
+}
+
+function getRolePer()
+{
+    global $conn;
+    $editId = $_POST["editId"];
+    $sql = "SELECT * FROM role_permission WHERE id='" . $editId . "'";
+    $result = mysqli_query($conn, $sql);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $id = $row["id"];
+        $roleId = $row["roleid"];
+        $perId = $row["permissionid"];
+        $rolePer = array("id" => $id, "roleId" => $roleId, "perId" => $perId);
+        return $rolePer;
+    }
+
+}
+
+function deleteRolePer(){
+    global $conn;
+    $deleteId=$_POST["deleteId"];
+    $sql="DELETE FROM role_permission WHERE id=$deleteId";
+    if(mysqli_query($conn,$sql))
+        return "Role-Permission deleted successfully";
+    else
+        return "Error while deleting Role-Permission";
 }

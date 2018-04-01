@@ -21,6 +21,7 @@ if ($_SESSION["isAdmin"] == 1)
 <div>
     <div class="container1" style="float:left;">
         <h1>Role-Permissions Management</h1>
+        <input type="hidden" id="updateId" name="updateId">
         <span>Role: </span><select name="cmbRole" id="cmbRole">
         </select><br>
         <span>Permission: </span> <select name="cmbPer" id="cmbPer">
