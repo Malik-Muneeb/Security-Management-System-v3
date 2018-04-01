@@ -7,6 +7,7 @@ if (isset($_SESSION["user"]) == false)
 <head>
     <title> User-Role </title>
     <link href="styles.css" rel="stylesheet">
+    <script src="jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="userRoleFunctions.js"></script>
 </head>
 <body>

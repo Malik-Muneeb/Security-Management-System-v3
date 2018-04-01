@@ -68,8 +68,7 @@ function saveRolePer() {
     rolePerObj.updateId=$("#updateId").val();
     rolePerObj.role=$("#cmbRole").val();
     rolePerObj.per=$("#cmbPer").val();
-    console.log(rolePerObj.role);
-    console.log(rolePerObj.per);
+
     if (rolePerObj.role == 0) {
         alert("First Select Role.");
         return false;

@@ -24,14 +24,14 @@ function loadUsers() {
         url: "apiAjax.php",
         data: dataToSend,
         success: function (result) {
-            var cmbPer = $("#cmbPer");
-            cmbPer.html("<option value='0'>--Select--</option>");
+            var cmbUser = $("#cmbUser");
+            cmbUser.html("<option value='0'>--Select--</option>");
             $(result).each(function () {
-                cmbPer.append("<option value='" + $(this).attr("permissionId") + "'>" + $(this).attr("name") + "</option>");
+                cmbUser.append("<option value='" + $(this).attr("userId") + "'>" + $(this).attr("name") + "</option>");
             });
         },
         error: function () {
-            alert("some Error Occured while Loading Countries.");
+            alert("some Error Occured while Loading Users.");
         }
     };
     $.ajax(setting);
@@ -63,26 +63,25 @@ function loadRoles() {
 }
 
 function saveUserRole() {
-    var rolePerObj = new Object();
-    rolePerObj.updateId=$("#updateId").val();
-    rolePerObj.role=$("#cmbRole").val();
-    rolePerObj.per=$("#cmbPer").val();
-    console.log(rolePerObj.role);
-    console.log(rolePerObj.per);
-    if (rolePerObj.role == 0) {
+    var userRoleObj = new Object();
+    userRoleObj.updateId=$("#updateId").val();
+    userRoleObj.role=$("#cmbRole").val();
+    userRoleObj.user=$("#cmbUser").val();
+
+    if (userRoleObj.user == 0) {
+        alert("First Select User.");
+        return false;
+    }
+    else if (userRoleObj.role == 0) {
         alert("First Select Role.");
         return false;
     }
-    else if (rolePerObj.per == 0) {
-        alert("First Select Permission.");
-        return false
-    }
 
     var dataToSend={
-        "txtUpdateId":rolePerObj.updateId,
-        "cmbRole":rolePerObj.role,
-        "cmbPer":rolePerObj.per,
-        action:"saveRolePer"
+        "txtUpdateId":userRoleObj.updateId,
+        "cmbRole":userRoleObj.role,
+        "cmbUser":userRoleObj.user,
+        action:"saveUserRole"
     };
 
     var settings = {
@@ -93,7 +92,7 @@ function saveUserRole() {
         success: function (result) {
             alert(result);
             $("#cmbRole").val(0);
-            $("#cmbPer").val(0);
+            $("#cmbUser").val(0);
             location.reload();
         },
         error: function (jqXHR, textStatus, errorThrown) {

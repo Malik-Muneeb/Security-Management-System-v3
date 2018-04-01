@@ -468,6 +468,7 @@ function fetchUsers()
         while ($row = mysqli_fetch_assoc($result)) {
             $userId = $row["userid"];
             $name = $row["name"];
+            
             $users[$i] = array("userId" => $userId, "name" => $name);
             $i++;
         }
@@ -538,11 +539,11 @@ function saveUserRole()
     if ($roleId == 0 && $userId == 0)
         return "Please Select All Information";
     else {
-        $sql = "Insert into role_permission VALUES (NULL,$roleId,$perId)";
+        $sql = "Insert into user_role VALUES (NULL,$userId,$roleId)";
         if (mysqli_query($conn, $sql) === TRUE)
-            return "Role-Permission is added successfully.";
+            return "User-Role is added successfully.";
         else
-            return "Some Problem has occurred while adding Role-Permission";
+            return "Some Problem has occurred while adding User-Role";
     }
 }
 
@@ -550,10 +551,10 @@ function updateUserRole(){
     global $conn;
     $updateId=$_POST["txtUpdateId"];
     $roleId=$_POST["cmbRole"];
-    $perId=$_POST["cmbPer"];
-    $sql = "UPDATE role_permission set roleid=$roleId, permissionid=$perId where id=$updateId";
+    $userId=$_POST["cmbUser"];
+    $sql = "UPDATE user_role set userid=$userId,roleid=$roleId where id=$updateId";
     if (mysqli_query($conn, $sql))
-        return "Role-Permisson updated successfully";
+        return "User-Role updated successfully";
     else
-        return "Error while updating Role-Permission";
+        return "Error while updating User-Role";
 }
