@@ -1,31 +1,30 @@
 $(document).ready(main);
 
 function main() {
-    loadRoleTable();
-    $("#btnSave").click(saveRole);
+    loadPerTable();
+    $("#btnSave").click(savePer);
     $("#btnClear").click(clearFields);
 }
 
-function saveRole() {
-    var roleObj = new Object();
-    roleObj.updateId=$("#updateId").val();
-    roleObj.roleName = document.getElementById("txtName").value;
-    roleObj.roleDesc = document.getElementById("txtDesc").value;
-
-    if (roleObj.roleName == "") {
-        alert("Enter Role!");
+function savePer() {
+    var perObj = new Object();
+    perObj.updateId = $("#updateId").val();
+    perObj.perName = document.getElementById("txtName").value;
+    perObj.perDesc = document.getElementById("txtDesc").value;
+    if (perObj.perName == "") {
+        alert("Enter Permission!");
         return false;
     }
-    else if (roleObj.roleDesc == "") {
-        alert("Enter role's description");
+    else if (perObj.perDesc == "") {
+        alert("Enter permissions's description");
         return false;
     }
 
     var dataToSend = {
-        "txtUpdateId":roleObj.updateId,
-        "txtName": roleObj.roleName,
-        "txtDesc": roleObj.roleDesc,
-        action: "saveRole"
+        "txtUpdateId": perObj.updateId,
+        "txtName": perObj.perName,
+        "txtDesc": perObj.perDesc,
+        action: "savePer"
     }
 
     var settings = {
@@ -40,7 +39,7 @@ function saveRole() {
             location.reload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("error while saving role");
+            alert("error while saving permission");
             console.log(JSON.stringify(jqXHR));
             console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
         }
@@ -48,10 +47,10 @@ function saveRole() {
     $.ajax(settings);
 }
 
-function loadRoleTable() {
+function loadPerTable() {
 
     var dataToSend = {
-        action: "getAllRoles"
+        action: "getAllPers"
     }
 
     var settings = {
@@ -63,17 +62,16 @@ function loadRoleTable() {
             var table = $("#myTable");
             $(result).each(function () {
                 var tr = $("<tr>");
-                tr.append("<td>" + $(this).attr("roleId") + "</td>");
+                tr.append("<td>" + $(this).attr("permissionId") + "</td>");
                 tr.append("<td>" + $(this).attr("name") + "</td>");
                 tr.append("<td>" + $(this).attr("description") + "</td>");
-                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("roleId") + "'>Edit</a></td>");
-                var editId = parseInt($(this).attr("roleId"));
+                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("permissionId") + "'>Edit</a></td>");
+                var editId = parseInt($(this).attr("permissionId"));
 
                 edit.click(function () {
-
                     var dataToSend = {
                         "editId": editId,
-                        action: "editRole"
+                        action:"editPer"
                     }
 
                     var settings = {
@@ -82,12 +80,12 @@ function loadRoleTable() {
                         url: "apiAjax.php",
                         data: dataToSend,
                         success: function (result) {
-                            $("#updateId").val(result["roleId"]);
+                            $("#updateId").val(result["permissionId"]);
                             $("#txtName").val(result["name"]);
                             $("#txtDesc").val(result["description"]);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            alert("Error occured while Editing User");
+                            alert("Error occured while Editing Permission");
                             console.log(JSON.stringify(jqXHR));
                             console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                         }
@@ -95,13 +93,13 @@ function loadRoleTable() {
                     $.ajax(settings);
                 });
                 tr.append(edit);
-                var deleteId = parseInt($(this).attr("roleId"));
+                var deleteId = parseInt($(this).attr("permissionId"));
                 var deleteLink = $("<td><a style = 'cursor:pointer;' >Delete</a></td>");
                 deleteLink.click(function () {
-                    if (confirm("Do You want to delete this role ?")) {
+                    if (confirm("Do You want to delete this permission ?")) {
                         var dataToSend = {
                             "deleteId": deleteId,
-                            action: "deleteRole"
+                            action: "deletePer"
                         }
                         var settings = {
                             type: "post",
@@ -139,3 +137,4 @@ function clearFields() {
     $("#txtName").val("");
     $("#txtDesc").val("");
 }
+

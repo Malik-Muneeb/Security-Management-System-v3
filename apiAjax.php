@@ -42,6 +42,23 @@ if (isset($_POST["action"])) {
     } else if($_POST["action"]=="deleteRole"){
         $msg=deleteRole();
         echo json_encode($msg);
+    } else if ($_POST["action"] == "savePer") {
+        if ($_POST["txtUpdateId"] == NULL) {
+            $msg = savePer();
+            echo json_encode($msg);
+        } else {
+            $msg = updatePer();
+            echo json_encode($msg);
+        }
+    } else if ($_POST["action"] == "getAllPers") {
+        $pers = getAllPers();
+        echo json_encode($pers);
+    } else if ($_POST["action"] == "editPer") {
+        $per = getPer();
+        echo json_encode($per);
+    } else if($_POST["action"]=="deletePer"){
+        $msg=deletePer();
+        echo json_encode($msg);
     }
 
 }

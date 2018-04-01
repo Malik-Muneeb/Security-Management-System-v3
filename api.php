@@ -252,3 +252,85 @@ function deleteRole()
     else
         return "Error while deleting role";
 }
+
+function savePer()
+{
+    global $conn;
+    $name = $_POST["txtName"];
+    $description = $_POST["txtDesc"];
+    if ($name == "" && $description == "")
+        return "Please Enter All Information";
+    else {
+        $userId = $_SESSION["userId"];
+        $date = date('Y-m-d H:i:s');
+        $sql="Insert into permissions VALUES (NULL,'".$name."','".$description."',".
+            "'".$date."',$userId)";
+        if (mysqli_query($conn, $sql) === TRUE)
+            return "Permission is added successfully.";
+        else
+            return "Some Problem has occurred while adding Permission";
+    }
+}
+
+function getAllPers()
+{
+    global $conn;
+    $sql = "SELECT * FROM permissions";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $pers = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pers[$i] = array("permissionId" => $row['permissionid'], "name" => $row['name'],
+                "description" => $row['description']);
+            $i++;
+        }
+        return $pers;
+    } else
+        return "No Permission Found";
+}
+
+function getPer()
+{
+    global $conn;
+    $editId = $_POST["editId"];
+    $sql = "SELECT * FROM permissions WHERE permissionid='" . $editId . "'";
+    $result = mysqli_query($conn, $sql);
+    $per = array();
+    if ($row = mysqli_fetch_assoc($result)) {
+        $per["permissionId"] = $row["permissionid"];
+        $per["name"] = $row["name"];
+        $per["description"] = $row["description"];
+        $per["createdOn"] = $row["createdon"];
+        $per["createdBy"] = $row["createdby"];
+        return $per;
+    }
+}
+
+function updatePer()
+{
+    global $conn;
+    $updateId = $_POST["txtUpdateId"];
+    $name = $_POST["txtName"];
+    $description = $_POST["txtDesc"];
+    $userId = $_SESSION["userId"];
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE permissions set name='" . $name . "',description='" . $description . "'" .
+        ",createdon='" . $date . "',createdby='" . $userId . "' where permissionid=$updateId";
+    if (mysqli_query($conn, $sql))
+        return "Permission updated successfully";
+    else
+        return "Error while updating Permission";
+}
+
+function deletePer()
+{
+    global $conn;
+    $deleteId = $_POST["deleteId"];
+    $sql = "DELETE FROM permissions WHERE permissionid=$deleteId";
+    if (mysqli_query($conn, $sql))
+        return "Permission deleted successfully";
+    else
+        return "Error while deleting Permission";
+}
