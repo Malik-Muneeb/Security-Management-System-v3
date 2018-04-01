@@ -3,8 +3,13 @@ session_start();
 include("api.php");
 if (isset($_POST["action"])) {
     if ($_POST["action"] == "saveUser") {
-        $msg = userAddDAO();
-        echo json_encode($msg);
+        if ($_POST["txtUpdateId"] == NULL) {
+            $msg = userAddDAO();
+            echo json_encode($msg);
+        } else {
+            $msg = updateUser();
+            echo json_encode($msg);
+        }
     } else if ($_POST["action"] == "fetchCountries") {
         $countries = fetchCountries();
         echo json_encode($countries);
@@ -14,6 +19,13 @@ if (isset($_POST["action"])) {
     } else if ($_POST["action"] == "getAllUsers") {
         $users = getAllUsers();
         echo json_encode($users);
+    } else if ($_POST["action"] == "editUser") {
+        $user = getUser();
+        echo json_encode($user);
+    } else if ($_POST["action"] == "deleteUser") {
+        $msg = "in api ajax";
+        //$msg=deleteUser();
+        echo json_encode($msg);
     }
 
 }

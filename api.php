@@ -113,4 +113,59 @@ function getAllUsers()
         return "No Records Found";
     }
 }
+
+function getUser(){
+    global $conn;
+    $sql = "SELECT * FROM users WHERE userid='".$_POST["editId"]."'";
+    $result = mysqli_query($conn, $sql);
+    $user=array();
+    if($row = mysqli_fetch_assoc($result)) {
+        $user["userId"]=$row["userid"];
+        $user["login"]=$row["login"];
+        $user["password"]=$row["password"];
+        $user["name"]=$row["name"];
+        $user["email"]=$row["email"];
+        $user["countryId"]=$row["countryid"];
+        $user["cityId"]=$row["cityid"];
+        $user["isAdmin"]=$row["isadmin"];
+        return $user;
+    }
+}
+
+function updateUser()
+{
+    global $conn;
+    $updateId=$_POST["txtUpdateId"];
+    $login = $_POST["txtLogin"];
+    $password = $_POST["txtPassword"];
+    $name = $_POST["txtName"];
+    $email = $_POST["txtEmail"];
+    $countryId = $_POST["cmbCountries"];
+    $cityId = $_POST["cmbCities"];
+    $isAdmin = $_POST["adminStatus"];
+    if ($login == "" && $password == "" && $name == "" && $email == "")
+        return "Please Enter All Information";
+    else {
+        $userId = $_SESSION["userId"];
+        $date = date('Y-m-d H:i:s');
+        $sql = "UPDATE users set login='".$login."', password='".$password."', name='".$name."',".
+            "email='".$email."', countryid='".$countryId."', cityid='".$cityId."', createdon='".$date."', ".
+            "createdby='".$userId."', isadmin=$isAdmin where userid=$updateId";
+        if (mysqli_query($conn, $sql) === TRUE) {
+            return "Record is updated successfully.";
+        } else {
+            return "Some Problem has occurred while updating record";
+        }
+    }
+}
+
+function deleteUser(){
+    global $conn;
+    $deleteId=$_POST["deleteId"];
+    $sql="DELETE FROM users WHERE userid=$deleteId";
+    if(mysqli_query($conn,$sql))
+        return "Record deleted successfully";
+    else
+        return "Error deleting record";
+}
 ?>

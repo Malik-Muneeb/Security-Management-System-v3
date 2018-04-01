@@ -63,6 +63,7 @@ function loadCities() {
 
 function saveUser() {
     var userObj = new Object();
+    userObj.updateId=$("#updateId").val();
     userObj.login = document.getElementById("txtLogin").value;
     userObj.password = document.getElementById("txtPassword").value;
     userObj.name = document.getElementById("txtName").value;
@@ -101,8 +102,9 @@ function saveUser() {
         return false;
     }
 
-    console.log(userObj.isAdmin);
+    console.log(userObj.updateId);
     var dataToSend = {
+        "txtUpdateId":userObj.updateId,
         "txtLogin": userObj.login,
         "txtPassword": userObj.password,
         "txtName": userObj.name,
@@ -126,6 +128,8 @@ function saveUser() {
             $("#txtEmail").val("");
             $("#cmbCountries").val("0");
             $("#cmbCities").val("0");
+            location.reload();
+            //loadUserTable();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("error while saving user");
@@ -158,17 +162,81 @@ function loadUserTable() {
         url: "apiAjax.php",
         data: dataToSend,
         success: function (result) {
-            alert("print table");
             var table = $("#myTable");
             $(result).each(function () {
                 var tr = $("<tr>");
                 tr.append("<td>" + $(this).attr("id") + "</td>");
                 tr.append("<td>" + $(this).attr("name") + "</td>");
                 tr.append("<td>" + $(this).attr("email") + "</td>");
-                link = $("<td><a id ='" + $(this).attr("id") + "'>Edit</a></td>");
-                tr.append(link);
-                var link = $("<td><a >Delete</a></td>");
-                tr.append(link);
+                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("id") + "'>Edit</a></td>");
+                var editId = parseInt($(this).attr("id"));
+
+                edit.click(function () {
+
+                    var dataToSend = {
+                        "editId":editId,
+                        action:"editUser"
+                    }
+
+                    var settings={
+                        type:"post",
+                        dataType:"json",
+                        url:"apiAjax.php",
+                        data:dataToSend,
+                        success:function (result) {
+                            $("#updateId").val(result["userId"]);
+                            $("#txtLogin").val(result["login"]);
+                            $("#txtPassword").val(result["password"]);
+                            $("#txtName").val(result["name"]);
+                            $("#txtEmail").val(result["email"]);
+                            $("#cmbCountries").val(result["countryId"]);
+                            loadCities();
+                            $("#cmbCities").val(result["cityId"]);
+                           // $("#cmbCities").get(0).selectedIndex = result["cityId"];
+                            //$("#cmbCities").val(result["cityId"]).change();
+                            //$("#cmbCities").val(result["cityId"]).attr("selected");
+                            //$("#cmbCities").text(result["cityName"]);
+                            if(result["isAdmin"]==1)
+                                $("#isAdmin").prop("checked",true);
+                            else
+                                $("#isAdmin").prop("checked",false);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error occured while Editing User");
+                            console.log(JSON.stringify(jqXHR));
+                            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                        }
+                    }
+                    $.ajax(settings);
+                });
+                tr.append(edit);
+                var deleteId = parseInt($(this).attr("id"));
+                var deleteLink = $("<td><a style = 'cursor:pointer;' >Delete</a></td>");
+                deleteLink.click(function () {
+                   if(confirm("Do You want to delete this record ?")){
+                       var dataToSend={
+                           "deleteId":deleteId,
+                           action:"deleteUser"
+                       }
+                       var settings={
+                           type:"post",
+                           dataType:"json",
+                           url:"apiAjax.php",
+                           data:dataToSend,
+                           success:function (result) {
+                               alert(result);
+                               tr.remove();
+                               location.reload();
+                           },
+                           error: function (jqXHR, textStatus, errorThrown) {
+                               alert("Error occured while deleting User");
+                               console.log(JSON.stringify(jqXHR));
+                               console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                           }
+                       }
+                   }
+                });
+                tr.append(deleteLink);
                 table.append(tr);
             });
 

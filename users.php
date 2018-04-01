@@ -28,6 +28,7 @@ if ($_SESSION["isAdmin"] == 1)
 <div>
     <div class="container1" id="userForm" style="float:left;">
         <h1>Users</h1>
+        <input type="hidden" id="updateId" name="updateId">
         <span>Login: </span> <input type="text" id="txtLogin" name="txtLogin" value="<?php echo($login); ?>"><br>
         <span>Password: </span> <input type="password" id="txtPassword" name="txtPassword"
                                        value="<?php echo($password); ?>"><br>
