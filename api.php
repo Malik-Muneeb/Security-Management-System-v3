@@ -19,13 +19,47 @@ function loginDAO()
                 $_SESSION["userId"] = $row["userid"];
                 $_SESSION["user"] = $row["name"];
                 $_SESSION["isAdmin"] = $isAdmin;
-                include("loginHistory.php");
+                loginHistory();
                 header("Location: home.php");
             } else {
                 $_SESSION["user"] = null;
                 return "Invalid login or Password";
             }
         }
+    }
+}
+
+function loginHistory()
+{
+    global $conn;
+    $userId = $_SESSION["userId"];
+    $sql = "SELECT * FROM users WHERE userid=$userId";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $login = $row["login"];
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if (isset($_SERVER['HTTP_X_FORWARDED']))
+        $ip = $_SERVER['HTTP_X_FORWARDED'];
+    else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $ip = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if (isset($_SERVER['HTTP_FORWARDED']))
+        $ip = $_SERVER['HTTP_FORWARDED'];
+    else if (isset($_SERVER['REMOTE_ADDR']))
+        $ip = $_SERVER['REMOTE_ADDR'];
+    else
+        $ip = 'UNKNOWN';
+    $date = date('Y-m-d H:i:s');
+    $sql = "Insert into loginhistory VALUES (NULL,$userId,'" . $login . "'" .
+        ",'" . $date . "','" . $ip . "')";
+    if (mysqli_query($conn, $sql) === TRUE) {
+        ?>
+        <script>alert("History is maintained.");</script><?php
+    } else {
+        ?>
+        <script>alert("Some Problem has occurred while mainting history");</script><?php
     }
 }
 
@@ -444,14 +478,15 @@ function saveRolePer()
     }
 }
 
-function updateRolePer(){
+function updateRolePer()
+{
     global $conn;
-    $updateId=$_POST["txtUpdateId"];
-    $roleId=$_POST["cmbRole"];
-    $perId=$_POST["cmbPer"];
+    $updateId = $_POST["txtUpdateId"];
+    $roleId = $_POST["cmbRole"];
+    $perId = $_POST["cmbPer"];
     $sql = "UPDATE role_permission set roleid=$roleId, permissionid=$perId where id=$updateId";
     if (mysqli_query($conn, $sql))
-       return "Role-Permisson updated successfully";
+        return "Role-Permisson updated successfully";
     else
         return "Error while updating Role-Permission";
 }
@@ -468,7 +503,7 @@ function fetchUsers()
         while ($row = mysqli_fetch_assoc($result)) {
             $userId = $row["userid"];
             $name = $row["name"];
-            if($row["isadmin"]==0){
+            if ($row["isadmin"] == 0) {
                 $users[$i] = array("userId" => $userId, "name" => $name);
                 $i++;
             }
@@ -548,11 +583,12 @@ function saveUserRole()
     }
 }
 
-function updateUserRole(){
+function updateUserRole()
+{
     global $conn;
-    $updateId=$_POST["txtUpdateId"];
-    $roleId=$_POST["cmbRole"];
-    $userId=$_POST["cmbUser"];
+    $updateId = $_POST["txtUpdateId"];
+    $roleId = $_POST["cmbRole"];
+    $userId = $_POST["cmbUser"];
     $sql = "UPDATE user_role set userid=$userId,roleid=$roleId where id=$updateId";
     if (mysqli_query($conn, $sql))
         return "User-Role updated successfully";
