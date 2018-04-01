@@ -263,8 +263,8 @@ function savePer()
     else {
         $userId = $_SESSION["userId"];
         $date = date('Y-m-d H:i:s');
-        $sql="Insert into permissions VALUES (NULL,'".$name."','".$description."',".
-            "'".$date."',$userId)";
+        $sql = "Insert into permissions VALUES (NULL,'" . $name . "','" . $description . "'," .
+            "'" . $date . "',$userId)";
         if (mysqli_query($conn, $sql) === TRUE)
             return "Permission is added successfully.";
         else
@@ -333,4 +333,42 @@ function deletePer()
         return "Permission deleted successfully";
     else
         return "Error while deleting Permission";
+}
+
+function fetchRoles()
+{
+    global $conn;
+    $sql = "SELECT * FROM roles";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $roles=array();
+        $i=0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $roleId = $row["roleid"];
+            $name = $row["name"];
+            $roles[$i]=array("roleId"=>$roleId, "name"=>$name);
+            $i++;
+        }
+        return $roles;
+    }
+}
+
+function fetchPers()
+{
+    global $conn;
+    $sql = "SELECT * FROM permissions";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $pers=array();
+        $i=0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $perId = $row["permissionid"];
+            $name = $row["name"];
+            $pers[$i]=array("roleId"=>$perId, "name"=>$name);
+            $i++;
+        }
+        return $pers;
+    }
 }

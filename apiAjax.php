@@ -59,6 +59,12 @@ if (isset($_POST["action"])) {
     } else if($_POST["action"]=="deletePer"){
         $msg=deletePer();
         echo json_encode($msg);
+    } else if($_POST["action"]=="fetchRoles"){
+        $roles=fetchRoles();
+        echo json_encode($roles);
+    } else if($_POST["action"]=="fetchPers"){
+        $pers=fetchPers();
+        echo json_encode($pers);
     }
 
 }
