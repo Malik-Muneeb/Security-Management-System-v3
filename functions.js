@@ -1,3 +1,4 @@
+
 $(document).ready(main);
 
 function main() {
@@ -6,7 +7,6 @@ function main() {
     $("#btnSave").click(saveUser);
     $("#btnClear").click(clearFields);
     loadUserTable();
-
 }
 
 function loadCountries() {
@@ -102,7 +102,6 @@ function saveUser() {
         return false;
     }
 
-    console.log(userObj.updateId);
     var dataToSend = {
         "txtUpdateId":userObj.updateId,
         "txtLogin": userObj.login,
@@ -250,3 +249,4 @@ function loadUserTable() {
 
     $.ajax(settings);
 }
+

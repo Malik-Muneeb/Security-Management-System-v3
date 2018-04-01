@@ -102,9 +102,9 @@ function getAllUsers()
     if ($recordsFound > 0) {
         $i = 0;
         while ($row = mysqli_fetch_assoc($result)) {
-            $id=$row['userid'];
-            $name=$row['name'];
-            $email=$row['email'];
+            $id = $row['userid'];
+            $name = $row['name'];
+            $email = $row['email'];
             $users[$i] = array("id" => $id, "name" => $name, "email" => $email);
             $i++;
         }
@@ -114,20 +114,21 @@ function getAllUsers()
     }
 }
 
-function getUser(){
+function getUser()
+{
     global $conn;
-    $sql = "SELECT * FROM users WHERE userid='".$_POST["editId"]."'";
+    $sql = "SELECT * FROM users WHERE userid='" . $_POST["editId"] . "'";
     $result = mysqli_query($conn, $sql);
-    $user=array();
-    if($row = mysqli_fetch_assoc($result)) {
-        $user["userId"]=$row["userid"];
-        $user["login"]=$row["login"];
-        $user["password"]=$row["password"];
-        $user["name"]=$row["name"];
-        $user["email"]=$row["email"];
-        $user["countryId"]=$row["countryid"];
-        $user["cityId"]=$row["cityid"];
-        $user["isAdmin"]=$row["isadmin"];
+    $user = array();
+    if ($row = mysqli_fetch_assoc($result)) {
+        $user["userId"] = $row["userid"];
+        $user["login"] = $row["login"];
+        $user["password"] = $row["password"];
+        $user["name"] = $row["name"];
+        $user["email"] = $row["email"];
+        $user["countryId"] = $row["countryid"];
+        $user["cityId"] = $row["cityid"];
+        $user["isAdmin"] = $row["isadmin"];
         return $user;
     }
 }
@@ -135,7 +136,7 @@ function getUser(){
 function updateUser()
 {
     global $conn;
-    $updateId=$_POST["txtUpdateId"];
+    $updateId = $_POST["txtUpdateId"];
     $login = $_POST["txtLogin"];
     $password = $_POST["txtPassword"];
     $name = $_POST["txtName"];
@@ -148,9 +149,9 @@ function updateUser()
     else {
         $userId = $_SESSION["userId"];
         $date = date('Y-m-d H:i:s');
-        $sql = "UPDATE users set login='".$login."', password='".$password."', name='".$name."',".
-            "email='".$email."', countryid='".$countryId."', cityid='".$cityId."', createdon='".$date."', ".
-            "createdby='".$userId."', isadmin=$isAdmin where userid=$updateId";
+        $sql = "UPDATE users set login='" . $login . "', password='" . $password . "', name='" . $name . "'," .
+            "email='" . $email . "', countryid='" . $countryId . "', cityid='" . $cityId . "', createdon='" . $date . "', " .
+            "createdby='" . $userId . "', isadmin=$isAdmin where userid=$updateId";
         if (mysqli_query($conn, $sql) === TRUE) {
             return "Record is updated successfully.";
         } else {
@@ -159,13 +160,37 @@ function updateUser()
     }
 }
 
-function deleteUser(){
+function deleteUser()
+{
     global $conn;
-    $deleteId=$_POST["deleteId"];
-    $sql="DELETE FROM users WHERE userid=$deleteId";
-    if(mysqli_query($conn,$sql))
+    $deleteId = $_POST["deleteId"];
+    $sql = "DELETE FROM users WHERE userid=$deleteId";
+    if (mysqli_query($conn, $sql))
         return "Record deleted successfully";
     else
         return "Error deleting record";
+}
+
+function saveRole()
+{
+    global $conn;
+    $name = $_POST["txtName"];
+    $description = $_POST["txtDesc"];
+    if ($name == "" && $description == "")
+        return "Please Enter All Information";
+    else {
+        $userId = $_SESSION["userId"];
+        $date = date('Y-m-d H:i:s');
+        $sql = "Insert into roles VALUES (NULL,'" . $name . "','" . $description . "'," .
+            "'" . $date . "',$userId)";
+        if (mysqli_query($conn, $sql) === TRUE)
+            return "Role is added successfully.";
+        else
+            return "Some Problem has occurred while adding role";
+    }
+}
+
+function getAllRoles(){
+    
 }
 ?>

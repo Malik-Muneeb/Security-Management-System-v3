@@ -23,9 +23,14 @@ if (isset($_POST["action"])) {
         $user = getUser();
         echo json_encode($user);
     } else if ($_POST["action"] == "deleteUser") {
-        //$msg = "in api ajax";
-        $msg=deleteUser();
+        $msg = deleteUser();
         echo json_encode($msg);
+    } else if ($_POST["action"] == "saveRole") {
+        $msg=saveRole();
+        echo json_encode($msg);
+    } else if($_POST["action"]=="getAllRoles"){
+        $roles=getAllRoles();
+        echo json_encode($roles);
     }
 
 }

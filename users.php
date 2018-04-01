@@ -52,11 +52,10 @@ if ($_SESSION["isAdmin"] == 1)
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Delete</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </table>
-
     </div>
 </div>
 </body>
