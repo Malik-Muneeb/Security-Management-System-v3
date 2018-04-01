@@ -17,7 +17,7 @@ if($_SESSION["isAdmin"]==1)
     include("adminMenu.php");
 ?>
 <div>
-    <div class="container1" id="perForm" name="perForm" style="float:left;">
+    <div class="container1 form" id="perForm" name="perForm" style="float:left;">
         <h1>Permission Management</h1>
         <input type="hidden" id="updateId" name="updateId">
         <span>Permission Name: </span> <input type="text" name="txtName" id="txtName" value="<?php echo $name;?>"><br>

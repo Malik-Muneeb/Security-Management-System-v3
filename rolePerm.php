@@ -16,7 +16,7 @@ if ($_SESSION["isAdmin"] == 1)
     include("adminMenu.php");
 ?>
 <div>
-    <div class="container1" style="float:left;">
+    <div class="container1 form" style="float:left;">
         <h1>Role-Permissions Management</h1>
         <input type="hidden" id="updateId" name="updateId">
         <span>Role: </span><select name="cmbRole" id="cmbRole"></select><br>

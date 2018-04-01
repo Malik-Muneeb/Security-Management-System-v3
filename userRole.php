@@ -17,7 +17,7 @@ if ($_SESSION["isAdmin"] == 1)
 ?>
 
 <div>
-    <div class="container1" name="userRoleForm" style="float:left;">
+    <div class="container1 form" name="userRoleForm" style="float:left;">
         <h1>User-Role Management</h1>
         <input type="hidden" id="updateId" name="updateId">
         <span>User: </span> <select name="cmbUser" id="cmbUser"></select><br>

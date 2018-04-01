@@ -26,7 +26,7 @@ if ($_SESSION["isAdmin"] == 1)
     include("adminMenu.php");
 ?>
 <div>
-    <div class="container1" id="userForm" style="float:left;">
+    <div class="container1 form" id="userForm" style="float:left;">
         <h1>Users</h1>
         <input type="hidden" id="updateId" name="updateId">
         <span>Login: </span> <input type="text" id="txtLogin" name="txtLogin" value="<?php echo($login); ?>"><br>
