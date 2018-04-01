@@ -82,8 +82,27 @@ if (isset($_POST["action"])) {
             $msg = updateRolePer();
             echo json_encode($msg);
         }
+    } else if($_POST["action"]=="fetchUsers"){
+        $users=fetchUsers();
+        echo json_encode($users);
+    } else if($_POST["action"]=="getAllRolesPers"){
+        $usersRoles=getAllUsersRoles();
+        echo json_encode($usersRoles);
+    } else if($_POST["action"]=="editUserRole"){
+        $userRole=getUserRole();
+        echo json_encode($userRole);
+    } else if($_POST["action"]=="deleteUserRole"){
+        $msg=deleteUserRole();
+        echo json_encode($msg);
+    } else if ($_POST["action"] == "saveUserRole") {
+        if ($_POST["txtUpdateId"] == NULL) {
+            $msg = saveUserRole();
+            echo json_encode($msg);
+        } else {
+            $msg = updateUserRole();
+            echo json_encode($msg);
+        }
     }
-
 }
 
 

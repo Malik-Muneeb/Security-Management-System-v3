@@ -434,7 +434,7 @@ function saveRolePer()
     $roleId = $_POST["cmbRole"];
     $perId = $_POST["cmbPer"];
     if ($roleId == 0 && $perId == 0)
-        $error = "Please Select All Information";
+        return "Please Select All Information";
     else {
         $sql = "Insert into role_permission VALUES (NULL,$roleId,$perId)";
         if (mysqli_query($conn, $sql) === TRUE)
@@ -452,6 +452,108 @@ function updateRolePer(){
     $sql = "UPDATE role_permission set roleid=$roleId, permissionid=$perId where id=$updateId";
     if (mysqli_query($conn, $sql))
        return "Role-Permisson updated successfully";
+    else
+        return "Error while updating Role-Permission";
+}
+
+function fetchUsers()
+{
+    global $conn;
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $users = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $userId = $row["userid"];
+            $name = $row["name"];
+            $users[$i] = array("userId" => $userId, "name" => $name);
+            $i++;
+        }
+        return $users;
+    }
+}
+
+function getAllUsersRoles()
+{
+    global $conn;
+    $sql = "SELECT * FROM user_role";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $userRoles = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $roleId = $row["roleid"];
+            $userId = $row["userid"];
+            $sql = "SELECT * FROM roles WHERE roleid=$roleId";
+            $result1 = mysqli_query($conn, $sql);
+            $row1 = mysqli_fetch_assoc($result1);
+            $roleName = $row1["name"];
+            $sql = "SELECT * FROM users WHERE userid=$userId";
+            $result1 = mysqli_query($conn, $sql);
+            $row1 = mysqli_fetch_assoc($result1);
+            $userName = $row1["name"];
+            $userRoles[$i] = array("id" => $row['id'], "roleName" => $roleName, "userName" => $userName);
+            $i++;
+        }
+        return $userRoles;
+    } else
+        return "No Records Found";
+}
+
+function getUserRole()
+{
+    global $conn;
+    $editId = $_POST["editId"];
+    $sql = "SELECT * FROM user_role WHERE id='" . $editId . "'";
+    $result = mysqli_query($conn, $sql);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $id = $row["id"];
+        $roleId = $row["roleid"];
+        $userId = $row["userid"];
+        $userRole = array("id" => $id, "roleId" => $roleId, "userId" => $userId);
+        return $userRole;
+    }
+
+}
+
+function deleteUserRole()
+{
+    global $conn;
+    $deleteId = $_POST["deleteId"];
+    $sql = "DELETE FROM user_role WHERE id=$deleteId";
+    if (mysqli_query($conn, $sql))
+        return "User-Role deleted successfully";
+    else
+        return "Error while deleting User-Role";
+}
+
+function saveUserRole()
+{
+    global $conn;
+    $roleId = $_POST["cmbRole"];
+    $userId = $_POST["cmbUser"];
+    if ($roleId == 0 && $userId == 0)
+        return "Please Select All Information";
+    else {
+        $sql = "Insert into role_permission VALUES (NULL,$roleId,$perId)";
+        if (mysqli_query($conn, $sql) === TRUE)
+            return "Role-Permission is added successfully.";
+        else
+            return "Some Problem has occurred while adding Role-Permission";
+    }
+}
+
+function updateUserRole(){
+    global $conn;
+    $updateId=$_POST["txtUpdateId"];
+    $roleId=$_POST["cmbRole"];
+    $perId=$_POST["cmbPer"];
+    $sql = "UPDATE role_permission set roleid=$roleId, permissionid=$perId where id=$updateId";
+    if (mysqli_query($conn, $sql))
+        return "Role-Permisson updated successfully";
     else
         return "Error while updating Role-Permission";
 }

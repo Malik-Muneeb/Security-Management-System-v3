@@ -1,5 +1,5 @@
 
-$(document).ready(main);
+    $(document).ready(main);
 
 function main() {
     loadCountries();
@@ -33,7 +33,7 @@ function loadCountries() {
     $.ajax(setting);
 }
 
-function loadCities() {
+function loadCities(cId) {
 
     var countryId = $("#cmbCountries").val();
     var dataToSend = {
@@ -51,7 +51,10 @@ function loadCities() {
             var cmbCities = $("#cmbCities");
             cmbCities.html("<option value='0'>--Select--</option>");
             $(result).each(function () {
-                cmbCities.append("<option value='" + $(this).attr("cityId") + "'>" + $(this).attr("name") + "</option>");
+                if($(this).attr("cityId")==cId)
+                    cmbCities.append("<option value='" + $(this).attr("cityId") + "'selected>" + $(this).attr("name") + "</option>");
+                else
+                    cmbCities.append("<option value='" + $(this).attr("cityId") + "'>" + $(this).attr("name") + "</option>");
             });
         },
         error: function () {
@@ -102,6 +105,7 @@ function saveUser() {
         return false;
     }
 
+    console.log(userObj.updateId);
     var dataToSend = {
         "txtUpdateId":userObj.updateId,
         "txtLogin": userObj.login,
@@ -189,8 +193,8 @@ function loadUserTable() {
                             $("#txtName").val(result["name"]);
                             $("#txtEmail").val(result["email"]);
                             $("#cmbCountries").val(result["countryId"]);
-                            loadCities();
-                            $("#cmbCities").val(result["cityId"]);
+                            loadCities(result["cityId"]);
+                            //$("#cmbCities").val(result["cityId"]);
                            // $("#cmbCities").get(0).selectedIndex = result["cityId"];
                             //$("#cmbCities").val(result["cityId"]).change();
                             //$("#cmbCities").val(result["cityId"]).attr("selected");

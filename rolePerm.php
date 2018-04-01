@@ -2,9 +2,6 @@
 session_start();
 if (isset($_SESSION["user"]) == false)
     header("location: login.php");
-$roleId = 0; $perId = 0;
-$roleName = "--Select--";
-$perName = "--Select--";
 ?>
 <html>
 <head>
@@ -22,10 +19,8 @@ if ($_SESSION["isAdmin"] == 1)
     <div class="container1" style="float:left;">
         <h1>Role-Permissions Management</h1>
         <input type="hidden" id="updateId" name="updateId">
-        <span>Role: </span><select name="cmbRole" id="cmbRole">
-        </select><br>
-        <span>Permission: </span> <select name="cmbPer" id="cmbPer">
-        </select><br><br>
+        <span>Role: </span><select name="cmbRole" id="cmbRole"></select><br>
+        <span>Permission: </span> <select name="cmbPer" id="cmbPer"></select><br><br>
         <input type="button" id="btnSave" name="btnSave" value="Save">
         <input type="reset" id="btnClear" name="btnClear" value="Clear">
     </div>
