@@ -24,7 +24,6 @@ else
 <?php
 if($_SESSION["isAdmin"]==0)
     include ("showUserInfoDAO.php");
-    //include ("showUserInfo.php");
 ?>
 
 
