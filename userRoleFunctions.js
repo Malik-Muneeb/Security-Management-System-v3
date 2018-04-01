@@ -1,4 +1,3 @@
-
 $(document).ready(main);
 
 function main() {
@@ -64,9 +63,9 @@ function loadRoles() {
 
 function saveUserRole() {
     var userRoleObj = new Object();
-    userRoleObj.updateId=$("#updateId").val();
-    userRoleObj.role=$("#cmbRole").val();
-    userRoleObj.user=$("#cmbUser").val();
+    userRoleObj.updateId = $("#updateId").val();
+    userRoleObj.role = $("#cmbRole").val();
+    userRoleObj.user = $("#cmbUser").val();
 
     if (userRoleObj.user == 0) {
         alert("First Select User.");
@@ -77,11 +76,11 @@ function saveUserRole() {
         return false;
     }
 
-    var dataToSend={
-        "txtUpdateId":userRoleObj.updateId,
-        "cmbRole":userRoleObj.role,
-        "cmbUser":userRoleObj.user,
-        action:"saveUserRole"
+    var dataToSend = {
+        "txtUpdateId": userRoleObj.updateId,
+        "cmbRole": userRoleObj.role,
+        "cmbUser": userRoleObj.user,
+        action: "saveUserRole"
     };
 
     var settings = {
@@ -106,7 +105,7 @@ function saveUserRole() {
 
 function loadUserRoleTable() {
     var dataToSend = {
-        action: "getAllRolesPers"
+        action: "getAllUsersRoles"
     }
 
     var settings = {
@@ -119,15 +118,15 @@ function loadUserRoleTable() {
             $(result).each(function () {
                 var tr = $("<tr>");
                 tr.append("<td>" + $(this).attr("id") + "</td>");
+                tr.append("<td>" + $(this).attr("userName") + "</td>");
                 tr.append("<td>" + $(this).attr("roleName") + "</td>");
-                tr.append("<td>" + $(this).attr("perName") + "</td>");
                 var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("id") + "'>Edit</a></td>");
                 var editId = parseInt($(this).attr("id"));
 
                 edit.click(function () {
                     var dataToSend = {
                         "editId": editId,
-                        action:"editRolePer"
+                        action: "editUserRole"
                     }
 
                     var settings = {
@@ -138,10 +137,10 @@ function loadUserRoleTable() {
                         success: function (result) {
                             $("#updateId").val(result["id"]);
                             $("#cmbRole").val(result["roleId"]);
-                            $("#cmbPer").val(result["perId"]);
+                            $("#cmbUser").val(result["userId"]);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            alert("Error occured while Editing Role-Permission");
+                            alert("Error occured while Editing User-Role");
                             console.log(JSON.stringify(jqXHR));
                             console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                         }
@@ -152,10 +151,10 @@ function loadUserRoleTable() {
                 var deleteId = parseInt($(this).attr("id"));
                 var deleteLink = $("<td><a style = 'cursor:pointer;' >Delete</a></td>");
                 deleteLink.click(function () {
-                    if (confirm("Do You want to delete this role-permission ?")) {
+                    if (confirm("Do You want to delete this user-role ?")) {
                         var dataToSend = {
                             "deleteId": deleteId,
-                            action: "deleteRolePer"
+                            action: "deleteUserRole"
                         }
                         var settings = {
                             type: "post",
@@ -167,7 +166,7 @@ function loadUserRoleTable() {
                                 tr.remove();
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
-                                alert("Error occured while deleting Role-Permission");
+                                alert("Error occured while deleting User-Role");
                                 console.log(JSON.stringify(jqXHR));
                                 console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                             }
@@ -181,7 +180,7 @@ function loadUserRoleTable() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Error occured while loading Users");
+            alert("Error occured while loading User-role table");
             console.log(JSON.stringify(jqXHR));
             console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
         }

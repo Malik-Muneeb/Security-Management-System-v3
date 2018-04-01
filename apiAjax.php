@@ -85,7 +85,7 @@ if (isset($_POST["action"])) {
     } else if($_POST["action"]=="fetchUsers"){
         $users=fetchUsers();
         echo json_encode($users);
-    } else if($_POST["action"]=="getAllRolesPers"){
+    } else if($_POST["action"]=="getAllUsersRoles"){
         $usersRoles=getAllUsersRoles();
         echo json_encode($usersRoles);
     } else if($_POST["action"]=="editUserRole"){

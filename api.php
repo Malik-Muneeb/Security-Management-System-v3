@@ -468,9 +468,10 @@ function fetchUsers()
         while ($row = mysqli_fetch_assoc($result)) {
             $userId = $row["userid"];
             $name = $row["name"];
-            
-            $users[$i] = array("userId" => $userId, "name" => $name);
-            $i++;
+            if($row["isadmin"]==0){
+                $users[$i] = array("userId" => $userId, "name" => $name);
+                $i++;
+            }
         }
         return $users;
     }

@@ -17,14 +17,14 @@ if ($_SESSION["isAdmin"] == 1)
 ?>
 
 <div>
-    <form class="container1" name="userRoleForm" style="float:left;">
+    <div class="container1" name="userRoleForm" style="float:left;">
         <h1>User-Role Management</h1>
         <input type="hidden" id="updateId" name="updateId">
         <span>User: </span> <select name="cmbUser" id="cmbUser"></select><br>
         <span>Role: </span> <select name="cmbRole" id="cmbRole"></select><br><br>
         <input type="button" id="btnSave" name="btnSave" value="Save">
         <input type="reset" id="btnClear" name="btnClear" value="Clear">
-    </form>
+    </div>
 
     <div >
         <h3>User-Role Table</h3>
