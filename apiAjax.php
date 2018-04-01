@@ -31,6 +31,9 @@ if (isset($_POST["action"])) {
     } else if($_POST["action"]=="getAllRoles"){
         $roles=getAllRoles();
         echo json_encode($roles);
+    } else if($_POST["action"]=="editRole"){
+        $role=getRole();
+        echo json_encode($role);
     }
 
 }

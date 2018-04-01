@@ -190,7 +190,26 @@ function saveRole()
     }
 }
 
-function getAllRoles(){
+function getAllRoles()
+{
+    global $conn;
+    $sql = "SELECT * FROM roles";
+    $result = mysqli_query($conn, $sql);
+    $recordsFound = mysqli_num_rows($result);
+    if ($recordsFound > 0) {
+        $roles = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $roles[$i] = array("roleId" => $row['roleid'], "name" => $row['name'],
+                "description" => $row['description']);
+            $i++;
+        }
+        return $roles;
+    } else
+        return "No Roles Found";
+}
+
+function getRole(){
     
 }
 ?>

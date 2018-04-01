@@ -1,7 +1,7 @@
 $(document).ready(main);
 
 function main() {
-
+    loadRoleTable();
     $("#btnSave").click(saveRole);
 }
 
@@ -60,17 +60,17 @@ function loadRoleTable() {
             var table = $("#myTable");
             $(result).each(function () {
                 var tr = $("<tr>");
-                tr.append("<td>" + $(this).attr("id") + "</td>");
+                tr.append("<td>" + $(this).attr("roleId") + "</td>");
                 tr.append("<td>" + $(this).attr("name") + "</td>");
-                tr.append("<td>" + $(this).attr("email") + "</td>");
-                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("id") + "'>Edit</a></td>");
-                var editId = parseInt($(this).attr("id"));
+                tr.append("<td>" + $(this).attr("description") + "</td>");
+                var edit = $("<td><a style = 'cursor:pointer;' id ='" + $(this).attr("roleId") + "'>Edit</a></td>");
+                var editId = parseInt($(this).attr("roleId"));
 
                 edit.click(function () {
 
                     var dataToSend = {
                         "editId": editId,
-                        action: "editUser"
+                        action: "editRole"
                     }
 
                     var settings = {
@@ -82,19 +82,6 @@ function loadRoleTable() {
                             $("#updateId").val(result["userId"]);
                             $("#txtLogin").val(result["login"]);
                             $("#txtPassword").val(result["password"]);
-                            $("#txtName").val(result["name"]);
-                            $("#txtEmail").val(result["email"]);
-                            $("#cmbCountries").val(result["countryId"]);
-                            loadCities();
-                            $("#cmbCities").val(result["cityId"]);
-                            // $("#cmbCities").get(0).selectedIndex = result["cityId"];
-                            //$("#cmbCities").val(result["cityId"]).change();
-                            //$("#cmbCities").val(result["cityId"]).attr("selected");
-                            //$("#cmbCities").text(result["cityName"]);
-                            if (result["isAdmin"] == 1)
-                                $("#isAdmin").prop("checked", true);
-                            else
-                                $("#isAdmin").prop("checked", false);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert("Error occured while Editing User");
@@ -105,13 +92,13 @@ function loadRoleTable() {
                     $.ajax(settings);
                 });
                 tr.append(edit);
-                var deleteId = parseInt($(this).attr("id"));
+                var deleteId = parseInt($(this).attr("roleId"));
                 var deleteLink = $("<td><a style = 'cursor:pointer;' >Delete</a></td>");
                 deleteLink.click(function () {
-                    if (confirm("Do You want to delete this record ?")) {
+                    if (confirm("Do You want to delete this role ?")) {
                         var dataToSend = {
                             "deleteId": deleteId,
-                            action: "deleteUser"
+                            action: "deleteRole"
                         }
                         var settings = {
                             type: "post",
