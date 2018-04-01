@@ -74,6 +74,14 @@ if (isset($_POST["action"])) {
     } else if($_POST["action"]=="deleteRolePer"){
         $msg=deleteRolePer();
         echo json_encode($msg);
+    } else if ($_POST["action"] == "saveRolePer") {
+        if ($_POST["txtUpdateId"] == NULL) {
+            $msg = saveRolePer();
+            echo json_encode($msg);
+        } else {
+            $msg = updateRolePer();
+            echo json_encode($msg);
+        }
     }
 
 }

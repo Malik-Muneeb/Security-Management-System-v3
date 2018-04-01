@@ -366,7 +366,7 @@ function fetchPers()
         while ($row = mysqli_fetch_assoc($result)) {
             $perId = $row["permissionid"];
             $name = $row["name"];
-            $pers[$i] = array("roleId" => $perId, "name" => $name);
+            $pers[$i] = array("permissionId" => $perId, "name" => $name);
             $i++;
         }
         return $pers;
@@ -417,12 +417,41 @@ function getRolePer()
 
 }
 
-function deleteRolePer(){
+function deleteRolePer()
+{
     global $conn;
-    $deleteId=$_POST["deleteId"];
-    $sql="DELETE FROM role_permission WHERE id=$deleteId";
-    if(mysqli_query($conn,$sql))
+    $deleteId = $_POST["deleteId"];
+    $sql = "DELETE FROM role_permission WHERE id=$deleteId";
+    if (mysqli_query($conn, $sql))
         return "Role-Permission deleted successfully";
     else
         return "Error while deleting Role-Permission";
+}
+
+function saveRolePer()
+{
+    global $conn;
+    $roleId = $_POST["cmbRole"];
+    $perId = $_POST["cmbPer"];
+    if ($roleId == 0 && $perId == 0)
+        $error = "Please Select All Information";
+    else {
+        $sql = "Insert into role_permission VALUES (NULL,$roleId,$perId)";
+        if (mysqli_query($conn, $sql) === TRUE)
+            return "Role-Permission is added successfully.";
+        else
+            return "Some Problem has occurred while adding Role-Permission";
+    }
+}
+
+function updateRolePer(){
+    global $conn;
+    $updateId=$_POST["txtUpdateId"];
+    $roleId=$_POST["cmbRole"];
+    $perId=$_POST["cmbPer"];
+    $sql = "UPDATE role_permission set roleid=$roleId, permissionid=$perId where id=$updateId";
+    if (mysqli_query($conn, $sql))
+       return "Role-Permisson updated successfully";
+    else
+        return "Error while updating Role-Permission";
 }

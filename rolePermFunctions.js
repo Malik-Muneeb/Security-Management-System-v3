@@ -5,8 +5,11 @@ function main() {
     loadRoles();
     loadPermissions();
     loadRolePerTable();
-    //$("#btnSave").click(saveRolePer);
-    //$("#btnClear").click(clearFields);
+    $("#btnSave").click(saveRolePer);
+    $("#btnClear").click(function () {
+        $("#cmbRole").val(0);
+        $("#cmbPer").val(0);
+    });
 }
 
 function loadRoles() {
@@ -58,6 +61,52 @@ function loadPermissions() {
     };
     $.ajax(setting);
 }
+
+
+function saveRolePer() {
+    var rolePerObj = new Object();
+    rolePerObj.updateId=$("#updateId").val();
+    rolePerObj.role=$("#cmbRole").val();
+    rolePerObj.per=$("#cmbPer").val();
+    console.log(rolePerObj.role);
+    console.log(rolePerObj.per);
+    if (rolePerObj.role == 0) {
+        alert("First Select Role.");
+        return false;
+    }
+    else if (rolePerObj.per == 0) {
+        alert("First Select Permission.");
+        return false
+    }
+
+    var dataToSend={
+        "txtUpdateId":rolePerObj.updateId,
+        "cmbRole":rolePerObj.role,
+        "cmbPer":rolePerObj.per,
+        action:"saveRolePer"
+    };
+
+    var settings = {
+        type: "POST",
+        dataType: "json",
+        url: "apiAjax.php",
+        data: dataToSend,
+        success: function (result) {
+            alert(result);
+            $("#cmbRole").val(0);
+            $("#cmbPer").val(0);
+            location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("error while saving permission");
+            console.log(JSON.stringify(jqXHR));
+            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+        }
+    }
+    $.ajax(settings);
+}
+
+
 
 function loadRolePerTable() {
     var dataToSend = {
