@@ -3,6 +3,7 @@ $(document).ready(main);
 function main() {
     loadRoleTable();
     $("#btnSave").click(saveRole);
+    $("#btnClear").click(clearFields);
 }
 
 function saveRole() {
@@ -131,6 +132,10 @@ function loadRoleTable() {
             console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
         }
     };
-
     $.ajax(settings);
+}
+
+function clearFields() {
+    $("#txtName").val("");
+    $("#txtDesc").val("");
 }

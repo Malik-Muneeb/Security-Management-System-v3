@@ -242,6 +242,13 @@ function updateRole()
         return "Error while updating role";
 }
 
-function deleteRole(){
-    
+function deleteRole()
+{
+    global $conn;
+    $deleteId = $_POST["deleteId"];
+    $sql = "DELETE FROM roles WHERE roleid=$deleteId";
+    if (mysqli_query($conn, $sql))
+        return "Role deleted successfully";
+    else
+        return "Error while deleting role";
 }
