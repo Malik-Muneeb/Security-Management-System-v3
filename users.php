@@ -18,7 +18,7 @@ $editId = 0;
     <title> Users </title>
     <link href="styles.css" rel="stylesheet">
     <script src="jquery-3.2.1.min.js" type="text/javascript"></script>
-    <script src="functions.js"></script>
+    <script src="userFunctions.js"></script>
 </head>
 <body>
 <?php
