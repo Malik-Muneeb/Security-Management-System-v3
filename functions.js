@@ -226,7 +226,6 @@ function loadUserTable() {
                            success:function (result) {
                                alert(result);
                                tr.remove();
-                               location.reload();
                            },
                            error: function (jqXHR, textStatus, errorThrown) {
                                alert("Error occured while deleting User");
@@ -234,6 +233,7 @@ function loadUserTable() {
                                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                            }
                        }
+                       $.ajax(settings);
                    }
                 });
                 tr.append(deleteLink);

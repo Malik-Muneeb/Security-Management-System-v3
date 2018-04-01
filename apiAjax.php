@@ -23,8 +23,8 @@ if (isset($_POST["action"])) {
         $user = getUser();
         echo json_encode($user);
     } else if ($_POST["action"] == "deleteUser") {
-        $msg = "in api ajax";
-        //$msg=deleteUser();
+        //$msg = "in api ajax";
+        $msg=deleteUser();
         echo json_encode($msg);
     }
 
